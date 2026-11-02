@@ -116,6 +116,53 @@ td .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right
 @media (min-width:1400px){
   #result > .verdict{grid-column:span 2}
 }
+
+.tabs{display:flex;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:5px;width:fit-content;max-width:100%}
+.tabs button{border:0;background:transparent;font:700 17px/1 var(--display);text-transform:uppercase;letter-spacing:.06em;padding:10px 18px;color:var(--muted)}
+.tabs button[aria-selected=true]{background:var(--lamp);color:var(--lamp-ink)}
+.snowbar{height:10px;border-radius:6px;background:var(--bg);border:1px solid var(--line);overflow:hidden}
+.snowbar i{display:block;height:100%;background:var(--fog)}
+.links{display:flex;flex-direction:column;gap:6px}
+.links a{color:var(--fg);text-decoration:none;border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:var(--bg);display:flex;justify-content:space-between;gap:10px}
+.links a span{color:var(--muted);font-size:13px}
+.links a:hover{border-color:var(--lamp)}
+@media (min-width:980px){
+  #sresult{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;align-content:start}
+  #sresult > .verdict{grid-column:span 2}
+  #sresult > .pair{grid-column:span 4}
+  #sresult > .card.third{grid-column:span 2}
+  #sresult > .card.tlc,#sresult > .empty{grid-column:1 / -1}
+}
+#sresult{display:flex;flex-direction:column;gap:14px}
+@media (min-width:980px){#sresult{display:grid}}
+
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;overflow-x:auto}
+@media (max-width:640px){.days{grid-template-columns:repeat(7,minmax(84px,1fr))}}
+.day{display:flex;flex-direction:column;gap:3px;text-align:left;padding:9px 10px;background:var(--bg);border-top:4px solid var(--line)}
+.day.lv0{border-top-color:var(--ok)}.day.lv1{border-top-color:var(--warn)}.day.lv2{border-top-color:var(--bad)}
+.day[aria-pressed=true]{background:var(--panel2);border-color:var(--lamp);border-top-width:4px}
+.day .dn{font:700 15px/1 var(--display);text-transform:uppercase;letter-spacing:.05em}
+.day .dn small{color:var(--muted);font-size:12px}
+.day .dt{font:600 14px/1.2 var(--body);font-variant-numeric:tabular-nums}
+.day .dl{font-size:12px;color:var(--muted);line-height:1.25}
+#result > .outlook,#sresult > .outlook{grid-column:1 / -1}
+
+#wresult{display:flex;flex-direction:column;gap:14px}
+.best{display:flex;flex-direction:column;gap:6px}
+.best .bi{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.best .bi b{font:700 18px/1.1 var(--display);text-transform:uppercase;letter-spacing:.03em}
+.mx{border-collapse:separate;border-spacing:4px;width:100%;font-size:13px}
+.mx th{font:500 11px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center;padding:4px;white-space:nowrap}
+.mx th.pl{text-align:left;color:var(--fg);font:700 15px/1.1 var(--display);letter-spacing:.03em;min-width:118px}
+.mx th.pl small{display:block;color:var(--muted);font:400 11px/1.2 var(--body);letter-spacing:0;text-transform:none}
+.mx th.grp{text-align:left;color:var(--lamp);padding-top:12px}
+.mx td{padding:0}
+.mx td button{width:100%;min-width:76px;padding:7px 6px;border-radius:8px;text-align:left;display:flex;flex-direction:column;gap:2px;border:1px solid transparent;font-size:12px;line-height:1.2}
+.mx td button.lv0{background:color-mix(in srgb,var(--ok) 22%,var(--bg));border-color:color-mix(in srgb,var(--ok) 45%,transparent)}
+.mx td button.lv1{background:color-mix(in srgb,var(--warn) 16%,var(--bg));border-color:color-mix(in srgb,var(--warn) 35%,transparent)}
+.mx td button.lv2{background:color-mix(in srgb,var(--bad) 13%,var(--bg));border-color:color-mix(in srgb,var(--bad) 30%,transparent);color:var(--muted)}
+.mx td button .v{font-weight:600;font-variant-numeric:tabular-nums}
+.mx td.na{color:var(--muted);text-align:center}
 footer{color:var(--muted);font-size:12px;text-align:center}
 footer a{color:inherit}
 @media (prefers-reduced-motion:no-preference){.verdict,.pt,.card{animation:in .35s ease both}@keyframes in{from{transform:translateY(6px)}to{transform:none}}}
@@ -127,6 +174,12 @@ footer a{color:inherit}
   <div class="eyebrow">Gipfelcheck · Südschwarzwald</div>
   <h1>Wie ist es<br>da oben?</h1>
 </header>
+<nav class="tabs" role="tablist" aria-label="Sportart">
+  <button type="button" role="tab" id="t-bike" aria-selected="true" aria-controls="tab-bike">Rennrad</button>
+  <button type="button" role="tab" id="t-ski" aria-selected="false" aria-controls="tab-ski">Langlauf</button>
+  <button type="button" role="tab" id="t-where" aria-selected="false" aria-controls="tab-where">Wo geht's?</button>
+</nav>
+<div id="tab-bike" role="tabpanel" aria-labelledby="t-bike">
 
 <div class="app">
 <div class="inputs">
@@ -182,7 +235,65 @@ footer a{color:inherit}
 <section id="result" aria-live="polite"><div class="empty">Startort, Anstieg und Abfahrtszeit wählen – dann „Empfehlung holen“.</div></section>
 </div>
 
-<footer>Wetter, Sicht, Wolken, Sonnenzeiten: <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a> (ICON-D2, auf Gipfelhöhe umgerechnet). Keine Prüfung von Straßensperren. Nebel ist schwer vorherzusagen – im Zweifel Licht an.</footer>
+</div>
+<div id="tab-ski" role="tabpanel" aria-labelledby="t-ski" hidden>
+<div class="app">
+<div class="inputs">
+<section class="step" aria-labelledby="s1s">
+  <h2 id="s1s">1 · Welche Loipe?</h2>
+  <div class="grouplabel">Läufst du oft (Strava)</div>
+  <div class="climbs" id="smine"></div>
+  <div class="grouplabel">Weitere Loipen</div>
+  <div class="climbs" id="smore"></div>
+  <div class="grouplabel">Andere Loipe</div>
+  <div class="row">
+    <input id="sq" type="text" placeholder="Tippen, z. B. Schonach" autocomplete="off" aria-describedby="sTxt">
+    <input id="sele" type="number" placeholder="Höhe m" aria-label="Höhe in Metern" style="flex:0 1 110px">
+  </div>
+  <div id="shits" class="row"></div>
+  <div class="hint" id="sTxt">Vorschläge erscheinen beim Tippen.</div>
+</section>
+<section class="step" aria-labelledby="s2s">
+  <h2 id="s2s">2 · Dein Lauf</h2>
+  <div class="row">
+    <label class="f">Start auf der Loipe
+      <input id="sdep" type="datetime-local">
+    </label>
+    <label class="f">Dauer: <b id="sdurTxt">1,5 Std.</b>
+      <input id="sdur" type="range" min="0.5" max="4" step="0.5" value="1.5">
+    </label>
+  </div>
+  <div class="seg" role="group" aria-label="Technik">
+    <button type="button" data-tech="skate" aria-pressed="true">Skating</button>
+    <button type="button" data-tech="classic">Klassisch</button>
+  </div>
+  <button id="sgo" class="primary" type="button">Empfehlung aktualisieren</button>
+  <div class="err" id="serr" hidden></div>
+</section>
+</div>
+<section id="sresult" aria-live="polite"><div class="empty">Loipe wählen – die Empfehlung lädt automatisch.</div></section>
+</div>
+</div>
+<div id="tab-where" role="tabpanel" aria-labelledby="t-where" hidden>
+<section class="step" aria-labelledby="w1s">
+  <h2 id="w1s">Wo kann ich fahren?</h2>
+  <div class="row">
+    <label class="f" style="flex:0 1 160px">Uhrzeit (jeden Tag)
+      <input id="wtime" type="time" value="10:00">
+    </label>
+    <div class="seg" role="group" aria-label="Sportart" style="flex:1 1 260px;align-self:end">
+      <button type="button" data-wsport="both" aria-pressed="true">Beides</button>
+      <button type="button" data-wsport="bike">Rennrad</button>
+      <button type="button" data-wsport="ski">Langlauf</button>
+    </div>
+  </div>
+  <p class="hint">Rennrad: Start <b id="wstart">–</b>, Dauer wie im Rennrad-Reiter. Langlauf: Dauer wie im Langlauf-Reiter. Ein Feld antippen öffnet die Details.</p>
+  <div class="err" id="werr" hidden></div>
+</section>
+<section id="wresult" aria-live="polite"><div class="empty">Lade alle Anstiege und Loipen …</div></section>
+</div>
+
+<footer>Wetter, Sicht, Wolken, Schnee, Sonnenzeiten: <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a> (ICON-D2, auf Gipfelhöhe umgerechnet). Keine Prüfung von Straßensperren. Nebel ist schwer vorherzusagen – im Zweifel Licht an.</footer>
 </div>
 
 <script>
@@ -335,7 +446,7 @@ async function fetchPoint(p,ele){
   const pr=fetchPointRaw(p,ele); wxCache.set(key,{t:Date.now(),p:pr}); pr.catch(()=>wxCache.delete(key)); return pr;
 }
 async function fetchPointRaw(p,ele){
-  let u=`https://api.open-meteo.com/v1/forecast?latitude=${p.lat}&longitude=${p.lon}&hourly=${HOURLY}&daily=sunrise,sunset&timezone=Europe%2FBerlin&forecast_days=4&past_days=1`;
+  let u=`https://api.open-meteo.com/v1/forecast?latitude=${p.lat}&longitude=${p.lon}&hourly=${HOURLY}&daily=sunrise,sunset&timezone=Europe%2FBerlin&forecast_days=7&past_days=1`;
   if(ele!=null)u+=`&elevation=${ele}`;
   return getJSON(u);
 }
@@ -471,7 +582,17 @@ function render(ws,wt,dep,top,end,durH){
 
   const bulb=lightLv===2?"on":lightLv===1?"half":"off";
   const chipLv=l=>`c${l}`;
-  $("result").innerHTML=`
+  const today0=new Date();today0.setHours(0,0,0,0);
+  const lastB=Math.min(new Date(ws.hourly.time[ws.hourly.time.length-1]),new Date(wt.hourly.time[wt.hourly.time.length-1]));
+  const dayCards=[];
+  for(let k=0;k<7;k++){
+    const base=new Date(today0);base.setDate(base.getDate()+k);base.setHours(dep.getHours(),dep.getMinutes(),0,0);
+    const off=top-dep,len=end-dep;const e=new Date(base.getTime()+len);
+    if(e>lastB||e<new Date())continue;
+    dayCards.push(dayCard(k,base,bikeDay(ws,wt,base,new Date(base.getTime()+off),e),base.toDateString()===dep.toDateString()));
+  }
+  $("result").onclick=ev=>{const b=ev.target.closest&&ev.target.closest("[data-day]");if(b)pickDay("dep",b.dataset.day,()=>autoRun());};
+  $("result").innerHTML=outlookHtml("Die nächsten Tage · Start / Gipfel",dayCards)+`
   <div class="verdict lv${lv}">
     <span class="chip ${chipLv(lv)}">${lv===2?"Vorsicht":lv===1?"Bedingt":"Gut"}</span>
     <div class="big">${esc(big)}</div>
@@ -503,6 +624,378 @@ function render(ws,wt,dep,top,end,durH){
   </div>`;
   if(!matchMedia("(min-width: 980px)").matches)$("result").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});
 }
+
+
+// ---------- Ausblick ----------
+const DAYN=["So","Mo","Di","Mi","Do","Fr","Sa"];
+function shiftDays(d,k){const x=new Date(d);x.setDate(x.getDate()+k);return x;}
+function dayCard(k,date,o,sel){
+  const lbl=k===0?"Heute":k===1?"Morgen":DAYN[date.getDay()];
+  return `<button type="button" class="day lv${o.lv}" data-day="${localIso(date)}" aria-pressed="${sel?"true":"false"}">
+    <span class="dn">${lbl} <small>${date.getDate()}.${date.getMonth()+1}.</small></span>
+    <span class="dt">${o.T}</span><span class="dl">${esc(o.label)}</span></button>`;
+}
+function outlookHtml(title,days){
+  return `<div class="card tlc outlook"><h3>${title}</h3><div class="days">${days.join("")}</div>
+  <p class="hint">Gleiche Uhrzeit an jedem Tag. Antippen zeigt die Details für den Tag. Ab Tag 4 wird die Vorhersage deutlich unsicherer.</p></div>`;
+}
+function bikeDay(ws,wt,dep,top,end){
+  const c=state.climb;
+  const Ts=at(ws,"temperature_2m",dep),Tt=at(wt,"temperature_2m",top);
+  const fs=fogAt(ws,dep),ft=fogAt(wt,top);
+  const pp=Math.max(at(ws,"precipitation_probability",dep)||0,at(wt,"precipitation_probability",top)||0,at(ws,"precipitation_probability",end)||0);
+  const rain=sumRange(wt,"precipitation",dep,end);
+  const ice=Tt<=3&&(at(wt,"relative_humidity_2m",top)>=90||ft.why.includes("Reif"));
+  const gust=at(wt,"wind_gusts_10m",top);
+  const sE=sunFor(ws,end),sD=sunFor(ws,dep);
+  const dark=(sD&&dep<sD.rise)||(sE&&end>sE.set);
+  let lv=0,label="Gut";
+  if(ice){lv=2;label="Glätte oben";}
+  else if(rain>=2||pp>=70){lv=2;label="Regen";}
+  else if(ft.lv===2){lv=2;label="Gipfel im Nebel";}
+  else if(Tt<1){lv=2;label="Sehr kalt";}
+  else if(pp>=40||rain>=0.5){lv=1;label="Schauer möglich";}
+  else if(gust>=50){lv=1;label="Stürmisch";}
+  else if(fs.lv===2&&ft.lv===0){lv=0;label="Oben Sonne";}
+  else if(fs.lv>=1){lv=1;label="Nebel unten";}
+  else if(dark){lv=1;label="Dunkel";}
+  else if(Tt<5){lv=1;label="Kalt, trocken";}
+  return{lv,label,T:`${r0(Ts)}° / ${r0(Tt)}°`};
+}
+function skiDay(w,dep,end){
+  const T=at(w,"temperature_2m",dep);
+  const depth=(at(w,"snow_depth",dep)||0)*100;
+  const rainD=sumRange(w,"rain",dep,end),rain48=sumRange(w,"rain",new Date(dep.getTime()-48*3600000),dep);
+  const new24=sumRange(w,"snowfall",new Date(dep.getTime()-24*3600000),dep);
+  const gust=at(w,"wind_gusts_10m",dep),fog=fogAt(w,dep);
+  const tmin12=Math.min(...rangeVals(w,"temperature_2m",new Date(dep.getTime()-12*3600000),dep));
+  let lv=0,label="Gut";
+  if(depth<8){lv=2;label="Kaum Schnee";}
+  else if(rainD>1||T>3){lv=2;label="Nass/Tauwetter";}
+  else if(rain48>1&&tmin12<-1){lv=1;label="Eisige Spur";}
+  else if(gust>=55){lv=1;label="Stürmisch";}
+  else if(fog.lv===2){lv=1;label="Nebel";}
+  else if(depth<20){lv=1;label="Dünne Unterlage";}
+  else if(new24>=10){lv=0;label="Neuschnee";}
+  else if(tmin12<-2&&T<-1){lv=0;label="Schnelle Spur";}
+  return{lv,label,T:`${r0(T)}° · ${r0(depth)} cm`};
+}
+function pickDay(inputId,iso,runFn){
+  const cur=new Date($(inputId).value);const d=new Date(iso);
+  d.setHours(cur.getHours(),cur.getMinutes(),0,0);$(inputId).value=localIso(d);runFn();
+}
+// ================= Langlauf =================
+const HS_SNOW="https://www.hochschwarzwald.de/schneebericht";
+const LOIPEN_MINE=[
+  {id:"notschrei",n:"Notschrei",m:"Loipenzentrum · 3,5–20 km",lat:47.8742,lon:7.9133,ele:1120,tag:"Läufst du am meisten",
+   links:[["Schneebericht Hochschwarzwald",HS_SNOW],["Webcam Notschrei","https://www.schwarzwaldportal.com/notschrei-webcam.html"]]},
+  {id:"maergen",n:"St. Märgen",m:"deine Runde östlich vom Ort",lat:47.9714,lon:8.1261,ele:1040,tag:"Läufst du auch",
+   links:[["Schneebericht Hochschwarzwald",HS_SNOW]]}
+];
+const LOIPEN_MORE=[
+  {id:"thurner",n:"Thurner",m:"Rundloipe 15 km · Startpunkt ca.",lat:47.9998,lon:8.0418,ele:1030,links:[["Schneebericht Hochschwarzwald",HS_SNOW]]},
+  {id:"feldberg",n:"Feldberg",m:"Feldbergpass, Loipennetz 120 km · ca.",lat:47.8635,lon:8.0340,ele:1230,
+   links:[["Loipen Feldberg","https://www.feldberg-erlebnis.de/en/winter/activities/cross-country-skiing-1"],["Schneebericht Hochschwarzwald",HS_SNOW]]},
+  {id:"herzogenhorn",n:"Herzogenhorn",m:"über Verbindungsloipe ab Feldbergpass · ca. 1300 m",lat:47.8470,lon:8.0180,ele:1300,
+   links:[["Schneebericht Hochschwarzwald",HS_SNOW]]},
+  {id:"hinterzarten",n:"Hinterzarten",m:"Oberzartener Loipe 7,9 km ab Kurhaus · ca.",lat:47.9030,lon:8.1060,ele:890,
+   links:[["Schneebericht Hochschwarzwald",HS_SNOW],["bergfex Langlauf Hinterzarten","https://www.bergfex.com/baden-wuerttemberg/langlaufen/hinterzarten/"]]}
+];
+const sstate={loipe:null,tech:"skate"};
+
+function loipeBtn(c){
+  const b=document.createElement("button");b.type="button";b.className="climb";
+  b.setAttribute("aria-pressed",sstate.loipe&&sstate.loipe.id===c.id?"true":"false");
+  b.innerHTML=`${c.tag?`<span class="tag">${esc(c.tag)}</span>`:""}<span class="n">${esc(c.n)}</span><span class="m">${c.ele} m</span><span class="m desc">${esc(c.m)}</span>`;
+  b.onclick=()=>{sstate.loipe=c;store.set("gc_loipe",c.id);renderLoipen();sAuto();};
+  return b;
+}
+function renderLoipen(){
+  const a=$("smine"),b=$("smore");a.innerHTML="";b.innerHTML="";
+  LOIPEN_MINE.forEach(c=>a.appendChild(loipeBtn(c)));LOIPEN_MORE.forEach(c=>b.appendChild(loipeBtn(c)));
+}
+let sqT=null,sqSeq=0;
+$("sq").addEventListener("input",()=>{clearTimeout(sqT);const q=$("sq").value.trim();if(q.length<3){$("shits").innerHTML="";return;}sqT=setTimeout(()=>sSuggest(q),300);});
+$("sq").addEventListener("keydown",e=>{if(e.key==="Enter"){const f=$("shits").querySelector("button");if(f)f.click();}});
+async function sSuggest(q){
+  const my=++sqSeq;
+  try{const res=(await geocode(q)).filter(r=>r.country_code==="DE"||r.country_code==="FR"||r.country_code==="CH");if(my!==sqSeq)return;
+    const box=$("shits");box.innerHTML="";
+    if(!res.length){box.innerHTML='<span class="hint">Nichts gefunden.</span>';return;}
+    res.slice(0,5).forEach(r=>{const b=document.createElement("button");b.type="button";
+      b.textContent=`${r.name}${r.admin2?", "+r.admin2:""} · ${r.elevation!=null?r0(r.elevation)+" m":"? m"}`;
+      b.onclick=async()=>{box.innerHTML="";$("sq").value=r.name;let ele=r.elevation;
+        try{const j=await getJSON(`https://api.open-meteo.com/v1/elevation?latitude=${r.latitude}&longitude=${r.longitude}`);if(j.elevation&&j.elevation[0]!=null)ele=j.elevation[0];}catch(e){}
+        ele=r0(ele||0);$("sele").value=ele;
+        sstate.loipe={id:"custom",n:r.name,m:"eigener Punkt",lat:r.latitude,lon:r.longitude,ele,links:[["Schneebericht Hochschwarzwald",HS_SNOW]]};
+        $("sTxt").textContent=`Gewählt: ${r.name} · ${ele} m`;renderLoipen();sAuto();};
+      box.appendChild(b);});
+  }catch(e){sErr(e);}
+}
+$("sele").addEventListener("change",()=>{const v=parseFloat($("sele").value);if(sstate.loipe&&sstate.loipe.id==="custom"&&v>0){sstate.loipe.ele=r0(v);sAuto();}});
+function sLabels(){const d=parseFloat($("sdur").value);$("sdurTxt").textContent=String(d).replace(".",",")+" Std.";}
+$("sdur").oninput=sLabels;["sdur","sdep"].forEach(id=>$(id).addEventListener("change",sAuto));
+document.querySelectorAll("[data-tech]").forEach(b=>b.onclick=()=>{sstate.tech=b.dataset.tech;store.set("gc_tech",sstate.tech);
+  document.querySelectorAll("[data-tech]").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));sAuto();});
+$("sgo").onclick=()=>sRun();
+function sErr(e){const m=String(e&&e.message||e||"");const el=$("serr");
+  if(!m){el.hidden=true;return;}
+  el.textContent=/fetch|network|load failed/i.test(m)?"Keine Verbindung zum Wetterdienst. Internet prüfen – in der Claude-Vorschau sind Netzabfragen gesperrt.":m;el.hidden=false;}
+
+const SKI_HOURLY=HOURLY+",snow_depth,snowfall,rain,freezing_level_height,shortwave_radiation";
+async function fetchSki(p){
+  const key="ski|"+p.lat.toFixed(3)+"|"+p.lon.toFixed(3)+"|"+p.ele;const hit=wxCache.get(key);
+  if(hit&&Date.now()-hit.t<10*60000)return hit.p;
+  const u=`https://api.open-meteo.com/v1/forecast?latitude=${p.lat}&longitude=${p.lon}&elevation=${p.ele}&hourly=${SKI_HOURLY}&daily=sunrise,sunset&timezone=Europe%2FBerlin&forecast_days=7&past_days=3`;
+  const pr=getJSON(u);wxCache.set(key,{t:Date.now(),p:pr});pr.catch(()=>wxCache.delete(key));return pr;
+}
+function sumRange(w,key,from,to){let s=0;for(let d=new Date(from);d<to;d=new Date(d.getTime()+3600000))s+=at(w,key,d)||0;return s;}
+function rangeVals(w,key,from,to){const a=[];for(let d=new Date(from);d<=to;d=new Date(d.getTime()+3600000))a.push(at(w,key,d));return a.filter(v=>v!=null);}
+
+function wax(T,wet,newSnow,tech){
+  // Richtwerte, fluorfrei
+  if(tech==="skate"){
+    if(wet||T>0)return{w:"Gleitwachs warm/nass (gelb)",x:"Grobe Struktur hilft bei Nassschnee. Sulzige Spur: kurz und kraftvoll abdrücken."};
+    if(T>-3)return{w:"Gleitwachs um 0° (rot)",x:newSnow?"Frischer Schnee bremst – eher die wärmere Sorte nehmen.":"Universalwachs reicht meist."};
+    if(T>-8)return{w:"Gleitwachs kalt (violett/blau)",x:"Kalter Schnee ist stumpf, feine Struktur."};
+    return{w:"Gleitwachs sehr kalt (grün)",x:"Sehr kalter, trockener Schnee – das Gleiten wird zäh."};
+  }
+  if(wet||T>1)return{w:"Klister (Universal/Rot) oder Fellski",x:"Nasser oder alter, umgewandelter Schnee: Steigwachs hält nicht."};
+  if(T>-2)return{w:"Steigwachs rot/violett (0 bis −2°)",x:"Um 0° stollt es schnell – dünn auftragen, lieber nachlegen."};
+  if(T>-8)return{w:"Steigwachs blau (−2 bis −8°)",x:"Gut planbar, mehrere dünne Schichten."};
+  return{w:"Steigwachs grün (unter −8°)",x:"Hart und kalt – Steigzone etwas länger wachsen."};
+}
+function skiKit(eff,wind,wet){
+  // Langlauf = hohe Belastung, weniger Lagen als auf dem Rad
+  const L=[];
+  if(eff>=5)L.push("Dünne Langlauf-Hose oder Tights","Langarm-Funktionsshirt","Dünne Handschuhe","Stirnband statt Mütze");
+  else if(eff>=-3)L.push("Langlauf-Tights/-Hose","Funktionsunterhemd + dünne Softshell","Langlauf-Handschuhe","Stirnband oder dünne Mütze");
+  else if(eff>=-10)L.push("Langlaufhose, ggf. Windschutz vorne","Unterhemd + Midlayer + Softshell","Wärmere Handschuhe","Mütze + Buff");
+  else L.push("Warme Langlaufhose mit Windstopper","Zwei Lagen + winddichte Jacke","Lobster- oder Fäustlinge","Mütze, Buff, Gesicht eincremen");
+  if(wind>=25)L.push("Windweste – auf den freien Höhen zieht es");
+  if(wet)L.push("Wasserabweisende Jacke, nasser Schnee dringt durch");
+  L.push("Trockenes Shirt + Jacke für danach ins Auto");
+  return L;
+}
+
+let sTimer=null,sSeq=0;
+function sAuto(){clearTimeout(sTimer);sTimer=setTimeout(sRun,250);}
+async function sRun(){
+  const my=++sSeq;sErr("");
+  const L=sstate.loipe;if(!L)return;
+  const dep=new Date($("sdep").value);if(isNaN(dep)){sErr("Startzeit fehlt.");return;}
+  const durH=parseFloat($("sdur").value),end=new Date(dep.getTime()+durH*3600000);
+  const btn=$("sgo");btn.disabled=true;btn.textContent="Lade …";
+  try{
+    const w=await fetchSki(L);if(my!==sSeq)return;
+    const last=new Date(w.hourly.time[w.hourly.time.length-1]);
+    if(end>last)throw new Error("So weit reicht die Vorhersage nicht – früheren Start wählen.");
+    sRender(w,L,dep,end,durH);
+  }catch(e){if(my===sSeq)sErr(e);}
+  finally{if(my===sSeq){btn.disabled=false;btn.textContent="Empfehlung aktualisieren";}}
+}
+
+function sRender(w,L,dep,end,durH){
+  const T=at(w,"temperature_2m",dep),Te=at(w,"temperature_2m",end),A=at(w,"apparent_temperature",dep);
+  const wind=at(w,"wind_speed_10m",dep),gust=at(w,"wind_gusts_10m",dep);
+  const depth=(at(w,"snow_depth",dep)||0)*100; // cm
+  const h24=new Date(dep.getTime()-24*3600000),h72=new Date(dep.getTime()-72*3600000);
+  const new24=sumRange(w,"snowfall",h24,dep),new72=sumRange(w,"snowfall",h72,dep);
+  const rain48=sumRange(w,"rain",new Date(dep.getTime()-48*3600000),dep);
+  const tmax48=Math.max(...rangeVals(w,"temperature_2m",new Date(dep.getTime()-48*3600000),dep));
+  const tmin12=Math.min(...rangeVals(w,"temperature_2m",new Date(dep.getTime()-12*3600000),dep));
+  const snowDuring=sumRange(w,"snowfall",dep,end),rainDuring=sumRange(w,"rain",dep,end);
+  const fz=at(w,"freezing_level_height",dep);
+  const fog=fogAt(w,dep);
+  const sun=sunFor(w,dep),sunE=sunFor(w,end);
+  const dark=(sun&&dep<sun.rise)||(sunE&&end>new Date(sunE.set.getTime()-15*60000));
+  const wetNow=T>0.5||rainDuring>0.3;
+
+  // Schneelage
+  let snowLv,snowTxt;
+  if(depth<8){snowLv=2;snowTxt="Zu wenig Schnee – Loipen sind sehr wahrscheinlich nicht gespurt.";}
+  else if(depth<20){snowLv=1;snowTxt="Dünne Schneedecke – oft nur Teile gespurt, Steine möglich.";}
+  else {snowLv=0;snowTxt="Genug Schnee für gespurte Loipen.";}
+  // Spurzustand
+  const cond=[];
+  if(rain48>1&&tmin12<-1)cond.push("Regen in den letzten zwei Tagen, danach Frost: harte, eisige Spur. Kanten und Kurven vorsichtig.");
+  else if(rain48>1||rainDuring>0.3)cond.push("Regen auf Schnee: nasse, langsame Spur.");
+  if(tmax48>2&&tmin12<-2&&rain48<=1)cond.push("Tauwetter, dann Frost: früh harsch und schnell, später weicher.");
+  if(new24>=10)cond.push(`${r0(new24)} cm Neuschnee in 24 h – früh evtl. noch nicht gespurt, dafür traumhaft, sobald gespurt.`);
+  else if(new24>=2)cond.push(`${r0(new24)} cm Neuschnee in 24 h – frische Auflage, eher langsam.`);
+  if(T>2)cond.push("Über 2°: Sulz am Nachmittag, Skating wird zäh.");
+  if(snowDuring>=2)cond.push(`Während deines Laufs fallen ca. ${r0(snowDuring)} cm Schnee.`);
+  if(!cond.length&&snowLv<2)cond.push("Stabile Verhältnisse – kein Regen, kein Tauwetter, kaum Neuschnee.");
+
+  // Gesamturteil
+  let lv,big,sub;
+  if(snowLv===2){lv=2;big="Kein Langlaufschnee";sub=`Modell: ${r0(depth)} cm Schnee auf ${L.ele} m. Schneebericht prüfen, bevor du fährst.`;}
+  else if(rainDuring>1||(wetNow&&T>3)){lv=1;big="Nass und weich";sub=`${r0(T)}° und Regen/Tauwetter – laufbar, aber kein Genuss.`;}
+  else if(gust>=55){lv=1;big="Stürmisch auf den Höhen";sub=`Böen bis ${r0(gust)} km/h, auf freien Flächen Schneeverwehungen in der Spur.`;}
+  else if(fog.lv===2){lv=1;big="Im Nebel";sub=`Sicht ${visTxt(fog.vis)} – Orientierung an den Markierungen, Brille mit klaren Gläsern.`;}
+  else if(snowLv===1){lv=1;big="Dünne Unterlage";sub=snowTxt;}
+  else{lv=0;big=tmin12<-2&&T<-1&&new24<2?"Schnelle Spur":"Gute Verhältnisse";sub=`${r0(depth)} cm Schnee (Modell), ${r0(T)}° beim Start.`;}
+
+  const wx=wax(T,wetNow,new24>=2,sstate.tech);
+  const eff=T-(wind>=15?3:wind>=8?1:0);
+  const kitL=skiKit(eff,wind,wetNow);
+  const light=dark?{t:"Stirnlampe mitnehmen",x:`${sun&&dep<sun.rise?`Sonnenaufgang ${hm(sun.rise)}`:`Sonnenuntergang ${hm(sunE.set)}`} – im Wald wird es früher dunkel. Nachtloipen sind nur auf ausgewiesenen Abschnitten beleuchtet.`}
+    :fog.lv>=1?{t:"Helle Kleidung, klare Brille",x:"Bei Nebel verlierst du auf freien Flächen schnell die Orientierung."}
+    :{t:"Kein Licht nötig",x:`Hell bis ${sunE?hm(sunE.set):"–"}.`};
+  const khPerH=sstate.tech==="skate"?60:50;
+  const kh=durH>=1.5?r0(khPerH*durH):0;
+  const fl=r0(Math.max(400,500+(T)*10)*durH/50)*50;
+
+  // Schneetabelle: letzte 3 Tage + Lauf
+  const rows=[];
+  for(let k=-3;k<=0;k++){
+    const d0=new Date(dep);d0.setHours(0,0,0,0);d0.setDate(d0.getDate()+k);const d1=new Date(d0.getTime()+86400000);
+    const lim=k===0?dep:d1;
+    const sf=sumRange(w,"snowfall",d0,lim),rn=sumRange(w,"rain",d0,lim);
+    const ts=rangeVals(w,"temperature_2m",d0,lim);
+    rows.push(`<tr class="${k===0?"ride":""}"><td>${k===0?"heute bis Start":d0.toLocaleDateString("de-DE",{weekday:"short",day:"numeric",month:"numeric"})}</td><td>${r0(Math.min(...ts))}° / ${r0(Math.max(...ts))}°</td><td>${sf>=0.5?r0(sf)+" cm":"–"}</td><td>${rn>=0.2?rn.toFixed(1).replace(".",",")+" mm":"–"}</td><td>${r0((at(w,"snow_depth",lim)||0)*100)} cm</td></tr>`);
+  }
+  const links=(L.links||[]).concat([["ADAC Schneehöhen Schwarzwald","https://www.adac.de/der-adac/regionalclubs/nordbaden/wintersport-und-schneehoehen-schwarzwald"]]);
+
+  const t0=new Date();t0.setHours(0,0,0,0);
+  const lastS=new Date(w.hourly.time[w.hourly.time.length-1]);
+  const sCards=[];
+  for(let k=0;k<7;k++){
+    const base=new Date(t0);base.setDate(base.getDate()+k);base.setHours(dep.getHours(),dep.getMinutes(),0,0);
+    const e=new Date(base.getTime()+(end-dep));if(e>lastS||e<new Date())continue;
+    sCards.push(dayCard(k,base,skiDay(w,base,e),base.toDateString()===dep.toDateString()));
+  }
+  $("sresult").onclick=ev=>{const b=ev.target.closest&&ev.target.closest("[data-day]");if(b)pickDay("sdep",b.dataset.day,()=>sAuto());};
+  $("sresult").innerHTML=outlookHtml("Die nächsten Tage · Temperatur & Schnee",sCards)+`
+  <div class="verdict lv${lv}">
+    <span class="chip c${lv}">${lv===2?"Eher nicht":lv===1?"Bedingt":"Los geht's"}</span>
+    <div class="big">${esc(big)}</div>
+    <div class="hint">${esc(sub)}</div>
+  </div>
+  <div class="pair">
+    <div class="pt"><span class="lbl">${esc(L.n)} · ${L.ele} m · ${hm(dep)}</span><span class="t">${r0(T)}°</span>
+      <span class="s">gefühlt ${r0(A)}° · Wind ${r0(wind)} km/h · ${fog.why}, Sicht ${visTxt(fog.vis)}</span></div>
+    <div class="pt"><span class="lbl">Schnee (Modell)</span><span class="t">${r0(depth)}<small style="font-size:28px"> cm</small></span>
+      <div class="snowbar" aria-hidden="true"><i style="width:${Math.min(100,depth/60*100)}%"></i></div>
+      <span class="s">Neuschnee 24 h: ${r0(new24)} cm · 72 h: ${r0(new72)} cm · Nullgradgrenze ${fz!=null?r0(fz/50)*50+" m":"–"}</span></div>
+  </div>
+  <div class="card third"><h3>Spur & Schnee</h3>
+    <p><b>${esc(snowTxt)}</b></p><ul>${cond.map(c=>`<li>${esc(c)}</li>`).join("")}</ul>
+    <p class="hint">Zum Ende (${hm(end)}): ${r0(Te)}°.</p></div>
+  <div class="card third"><h3>Wachs · ${sstate.tech==="skate"?"Skating":"Klassisch"}</h3>
+    <p><b>${esc(wx.w)}</b></p><p class="hint">${esc(wx.x)}</p>
+    <p class="hint">Richtwerte nach Lufttemperatur. Bei Neuschnee und um 0° lieber die wärmere Sorte.</p></div>
+  <div class="card third"><h3>Licht & Sicht</h3>
+    <div class="lamp"><div class="bulb ${dark?"on":fog.lv?"half":"off"}" aria-hidden="true">${dark?"AN":fog.lv?"½":"AUS"}</div>
+    <div><p><b>${esc(light.t)}</b></p><p class="hint">${esc(light.x)}</p></div></div></div>
+  <div class="card third"><h3>Kleidung · ${r0(eff)}°</h3><ul>${kitL.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+    <p class="hint">Langlauf macht warm: Start eher leicht fröstelnd.</p></div>
+  <div class="card third"><h3>Verpflegung</h3>
+    ${kh?`<p><b>${khPerH} g</b> KH pro Stunde → <b>${kh} g</b></p>`:`<p>Unter 1,5 Std.: ein Riegel als Reserve.</p>`}
+    <p><b>≈ ${fl} ml</b> trinken${T<3?" – warmer Tee in der Thermo-Trinkflasche oder im Gürtel":""}</p></div>
+  <div class="card third"><h3>Loipenbericht</h3>
+    <p class="hint">Gespurt oder nicht, steht nur im offiziellen Bericht. Den kann die App nicht direkt auslesen.</p>
+    <div class="links">${links.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${esc(t)} <span>öffnen ↗</span></a>`).join("")}</div></div>
+  <div class="card tlc"><h3>Schnee & Wetter der letzten Tage</h3>
+    <div class="tl"><table><thead><tr><th>Tag</th><th>Min / Max</th><th>Neuschnee</th><th>Regen</th><th>Schneehöhe</th></tr></thead><tbody>${rows.join("")}</tbody></table></div>
+    <p class="hint">Schneehöhe aus dem Wettermodell, nicht gemessen – an der Loipe kann es deutlich mehr oder weniger sein.</p></div>`;
+}
+
+
+// ================= Wo geht's? =================
+const wstate={sport:"both"};
+function estUpMin(start,climb){
+  const flatKm=Math.max(0,distKm(start,climb)*1.3-8),climbM=Math.max(0,climb.ele-300);
+  return Math.min(240,Math.max(20,Math.round((flatKm/27*60+climbM/VAM*60)/5)*5));
+}
+async function fetchMulti(list,hourly,tag){
+  const key=tag+"|"+list.map(p=>p.lat.toFixed(3)+","+p.lon.toFixed(3)+","+p.ele).join(";");
+  const hit=wxCache.get(key);if(hit&&Date.now()-hit.t<10*60000)return hit.p;
+  const u=`https://api.open-meteo.com/v1/forecast?latitude=${list.map(p=>p.lat).join(",")}&longitude=${list.map(p=>p.lon).join(",")}&elevation=${list.map(p=>p.ele).join(",")}&hourly=${hourly}&daily=sunrise,sunset&timezone=Europe%2FBerlin&forecast_days=7&past_days=3`;
+  const pr=getJSON(u).then(j=>Array.isArray(j)?j:[j]);wxCache.set(key,{t:Date.now(),p:pr});pr.catch(()=>wxCache.delete(key));return pr;
+}
+let wTimer=null,wSeq=0;
+function wAuto(){clearTimeout(wTimer);wTimer=setTimeout(wRun,250);}
+async function wRun(){
+  const my=++wSeq;const el=$("werr");el.hidden=true;
+  if(!state.start)return;
+  $("wstart").textContent=state.start.name.split(",")[0];
+  const [hh,mm]=($("wtime").value||"10:00").split(":").map(Number);
+  const climbs=[...MINE,...MORE],loipen=[...LOIPEN_MINE,...LOIPEN_MORE];
+  try{
+    const jobs=[];
+    if(wstate.sport!=="ski")jobs.push(fetchPoint(state.start,null),fetchMulti(climbs,HOURLY,"wb"));else jobs.push(null,null);
+    if(wstate.sport!=="bike")jobs.push(fetchMulti(loipen,SKI_HOURLY,"ws"));else jobs.push(null);
+    const [ws,wb,wsk]=await Promise.all(jobs);if(my!==wSeq)return;
+    const t0=new Date();t0.setHours(0,0,0,0);
+    const days=[...Array(7)].map((_,k)=>{const d=new Date(t0);d.setDate(d.getDate()+k);d.setHours(hh,mm,0,0);return d;});
+    const bDur=parseFloat($("dur").value)*3600000,sDur=parseFloat($("sdur").value)*3600000;
+    const now=new Date();
+    const best=[];
+    const head=`<tr><th></th>${days.map((d,k)=>`<th>${k===0?"Heute":k===1?"Morgen":DAYN[d.getDay()]}<br>${d.getDate()}.${d.getMonth()+1}.</th>`).join("")}</tr>`;
+    let rows="";
+    if(wb){
+      rows+=`<tr><th class="grp" colspan="8">Rennrad · Start / Gipfel</th></tr>`;
+      climbs.forEach((c,i)=>{
+        const wt=wb[i];const up=estUpMin(state.start,c)*60000;
+        const lastT=new Date(Math.min(new Date(ws.hourly.time[ws.hourly.time.length-1]),new Date(wt.hourly.time[wt.hourly.time.length-1])));
+        rows+=`<tr><th class="pl">${esc(c.n)}<small>${c.ele} m</small></th>`+days.map((d,k)=>{
+          const e=new Date(d.getTime()+bDur);
+          if(e>lastT||e<now)return `<td class="na">–</td>`;
+          const o=bikeDay(ws,wt,d,new Date(d.getTime()+up),e,c);
+          if(k<3&&o.lv===0)best.push({k,d,name:c.n,label:o.label,sport:"Rad"});
+          return `<td><button type="button" class="lv${o.lv}" data-w="bike|${c.id}|${localIso(d)}"><span>${esc(o.label)}</span><span class="v">${o.T}</span></button></td>`;
+        }).join("")+`</tr>`;
+      });
+    }
+    if(wsk){
+      rows+=`<tr><th class="grp" colspan="8">Langlauf · Temperatur / Schnee</th></tr>`;
+      loipen.forEach((c,i)=>{
+        const w=wsk[i];const lastT=new Date(w.hourly.time[w.hourly.time.length-1]);
+        rows+=`<tr><th class="pl">${esc(c.n)}<small>${c.ele} m</small></th>`+days.map((d,k)=>{
+          const e=new Date(d.getTime()+sDur);
+          if(e>lastT||e<now)return `<td class="na">–</td>`;
+          const o=skiDay(w,d,e);
+          if(k<3&&o.lv===0)best.push({k,d,name:c.n,label:o.label,sport:"Ski"});
+          return `<td><button type="button" class="lv${o.lv}" data-w="ski|${c.id}|${localIso(d)}"><span>${esc(o.label)}</span><span class="v">${o.T}</span></button></td>`;
+        }).join("")+`</tr>`;
+      });
+    }
+    best.sort((a,b)=>a.k-b.k);{const seen=new Set();for(let i=best.length-1;i>=0;i--){}const u=[];best.forEach(b=>{if(!seen.has(b.name)){seen.add(b.name);u.push(b);}});best.length=0;best.push(...u);}
+    const dl=k=>k===0?"Heute":k===1?"Morgen":"Übermorgen";
+    const bestHtml=best.length?best.slice(0,6).map(b=>`<div class="bi"><span class="chip c0">${dl(b.k)}</span><b>${esc(b.name)}</b><span class="hint">${b.sport} · ${esc(b.label)}</span></div>`).join("")
+      :`<p>In den nächsten drei Tagen ist um ${pad(hh)}:${pad(mm)} nirgends grün. Eine andere Uhrzeit probieren oder in der Tabelle nach Gelb schauen.</p>`;
+    $("wresult").onclick=ev=>{const b=ev.target.closest&&ev.target.closest("[data-w]");if(!b)return;
+      const [sp,id,iso]=b.dataset.w.split("|");
+      if(sp==="bike"){state.climb=[...MINE,...MORE].find(x=>x.id===id);store.set("gc_climb",id);$("dep").value=iso;renderClimbs();estimateUp();showTab("bike");autoRun();}
+      else{sstate.loipe=[...LOIPEN_MINE,...LOIPEN_MORE].find(x=>x.id===id);store.set("gc_loipe",id);$("sdep").value=iso;renderLoipen();showTab("ski");sAuto();}
+      window.scrollTo&&window.scrollTo({top:0});
+    };
+    $("wresult").innerHTML=`
+      <div class="card best"><h3>Geht gut · nächste 3 Tage um ${pad(hh)}:${pad(mm)}</h3>${bestHtml}</div>
+      <div class="card"><h3>Übersicht 7 Tage</h3>
+        <div class="tl"><table class="mx"><thead>${head}</thead><tbody>${rows}</tbody></table></div>
+        <p class="hint">Grün gut, gelb geht so, rot eher nicht. Strich: Zeit vorbei oder außerhalb der Vorhersage. Ab Tag 4 unsicherer.</p></div>`;
+  }catch(e){if(my===wSeq){const m=String(e&&e.message||e);el.textContent=/fetch|network|load failed/i.test(m)?"Keine Verbindung zum Wetterdienst.":m;el.hidden=false;}}
+}
+$("wtime").addEventListener("change",wAuto);
+document.querySelectorAll("[data-wsport]").forEach(b=>b.onclick=()=>{wstate.sport=b.dataset.wsport;
+  document.querySelectorAll("[data-wsport]").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));wAuto();});
+
+// Tabs
+function showTab(t){
+  ["bike","ski","where"].forEach(x=>{$("tab-"+x).hidden=x!==t;$("t-"+x).setAttribute("aria-selected",x===t?"true":"false");});
+  store.set("gc_tab",t);
+  if(t==="ski"&&!$("sresult").querySelector(".verdict"))sAuto();
+  if(t==="where")wAuto();
+}
+$("t-bike").onclick=()=>showTab("bike");$("t-ski").onclick=()=>showTab("ski");$("t-where").onclick=()=>showTab("where");
+(function sInit(){
+  const d=new Date();d.setMinutes(Math.ceil(d.getMinutes()/15)*15,0,0);$("sdep").value=localIso(d);sLabels();
+  const t=store.get("gc_tech");if(t){sstate.tech=t;document.querySelectorAll("[data-tech]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.tech===t?"true":"false"));}
+  const id=store.get("gc_loipe");sstate.loipe=[...LOIPEN_MINE,...LOIPEN_MORE].find(x=>x.id===id)||LOIPEN_MINE[0];renderLoipen();
+  const gt=store.get("gc_tab");if(gt==="ski"||gt==="where")showTab(gt);
+})();
 
 // ---------- Init ----------
 (function init(){
